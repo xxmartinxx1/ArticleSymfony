@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <main class="flex-shrink-0">
+        <div class="container pt-4">
+            <h1 class="mt-5">Wszystkie publikacje uzytkownika <b>{{ user.name }} ({{ user.username }})</b></h1>
+        </div>
+    </main>
+
+
+<div class="container">
+    <div class="row justify-content-center mt-5 w-100">
+
+
+        <div class="card mb-3" style="max-width: 1240px;">
+
+
+            {% if lastArticleByAuthor is not empty %}
+                {% for value in lastArticleByAuthor %}
+
+            <div class="row g-0 mt-3">
+                <div class="col-md-4">
+                    <a href="#!"><img class="card-img-top w-100" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ value.title }}</h5>
+                        <p class="card-text">{{ value.text|slice(0, 250) }}...</p>
+                        <p class="card-text"><small class="text-muted">Styczeń 12, 2023</small></p>
+                    </div>
+
+                </div>
+            </div>
+            <hr>
+                {% endfor %}
+            {% else %}
+                <h1>{{ info_no_articles_message }}</h1>
+            {% endif %}
+
+
+            <div class="pagination justify-content-center">
+                <ul class="pagination">
+                    {% if page > 1 %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ path('app_author_articles', {'page': page - 1, 'id': user.id}) }}" aria-label="Poprzednia">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="visually-hidden">Poprzednia</span>
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    {% for i in 1..maxPages %}
+                        {% if i == page %}
+                            <li class="page-item active" aria-current="page">
+                                <a class="page-link" href="{{ path('app_author_articles', {'page': i, 'id': user.id}) }}">{{ i }}</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ path('app_author_articles', {'page': i, 'id': user.id}) }}">{{ i }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if page < maxPages %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ path('app_author_articles', {'page': page + 1, 'id': user.id}) }}" aria-label="Następna">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="visually-hidden">Następna</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+
+        </div>
+
+
+    </div>
+</div>
+
+
+{% endblock %}
+
+

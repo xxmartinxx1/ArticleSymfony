@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container">
+    <div class="row justify-content-center mt-5 w-100">
+
+        <div class="mt-4 w-100">
+            <div class="card mb-4">
+                <h3 class="pb-4 mb-4 mt-4 fst-italic  text-center btn btn-light">
+                    {{ article.title }}
+                </h3>
+                <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
+                <div class="card-body">
+                    <div class="small text-muted">
+                        <div class="btn btn-primary">{{ article.relaseDate|date('Y-m-d') }} </div>
+                        {% if article.Relation is not empty %}
+                            {% for author in article.Relation %}
+                                <a class="btn btn-dark" href="{{ path('app_author_articles', {id: author.id}) }}">{{  author.name }}</a>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <p class="card-text mt-5"> {{ article.text|nl2br }} </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+

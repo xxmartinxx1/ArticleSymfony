@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+
+<!-- Page content-->
+<div class="container">
+    <div class="row justify-content-center mt-5 w-100">
+        <div class="col-md-8 col-lg-10">
+            <div class="card">
+                <div class="card mb-4">
+                    {% if lastArticle is not empty %}
+
+                    <a href="#!"><img class="card-img-top" src="https://dummyimage.com/850x350/dee2e6/6c757d.jpg" alt="..." /></a>
+
+                    <div class="card-body">
+                        <div class="small text-muted">{{ lastArticle.relaseDate|date('Y-m-d') }}</div>
+                        <h2 class="card-title">{{ lastArticle.title }}</h2>
+                        <p class="card-text">{{ lastArticle.text|slice(0, 300) }}...</p>
+                        <a class="btn btn-primary" href="{{ path('app_admin_show_article', {'id': lastArticle.id}) }}">Więcej →</a>
+                        {% if is_granted('ROLE_ADMIN') %}
+                        <a class="btn btn-success" style="float: right;" href="{{ path('app_admin_edit_article', {'id': lastArticle.id}) }}">Edit →</a>
+                        {% endif %}
+                        </div>
+                    {% else %}
+                        <h1>{{ info_no_articles_message }}</h1>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row justify-content-center mt-5 w-100 ">
+
+        {% if lastArticle is not empty %}
+            {% for value in lastThreeArticles %}
+        <div class="card border-primary mb-3" style="max-width: 18rem; margin-right: 3rem;">
+            <div class="card-header"> Publikacje | Ostatni tydzień: {{ value.articles_written }} </div>
+            <div class="card-body text-primary">
+                <h5 class="card-title"> {{ value.name }}</h5>
+                <p class="card-text">{{ value.title }}</p>
+
+            </div>
+            <div class="d-flex flex-grow-1 justify-content-end align-items-center mb-3">
+                <a class="btn btn-primary" style="margin-right: 1em;" href="{{ path('app_admin_show_article', {'id': value.id}) }}">Czytaj dalej →</a>
+                <a class="btn btn-primary" href="{{ path('app_author_articles', {'id': value.userId}) }}">Pozostałe →</a>
+            </div>
+        </div>
+            {% endfor %}
+        {% else %}
+                <h1>{{ info_no_top_three_authors }}</h1>
+        {% endif %}
+
+    </div>
+</div>
+
+<div class="container">
+    <div class="row justify-content-center mt-5 w-100">
+
+        {% if lastArticle is not empty %}
+            {% for value in lastFourArticles %}
+            <div class=" mt-4 w-50">
+                <div class="card mb-4">
+                    <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
+                    <div class="card-body justify-content-end" style="height: 250px;">
+                        <div class="small text-muted">{{ value.relaseDate|date('Y-m-d') }}</div>
+                        <h2 class="card-title h4">{{ value.title }}</h2>
+                        <p class="card-text">{{ value.text|slice(0, 300) }}...</p>
+                    </div>
+                    <div style="padding: 11px;">
+                        <a class="btn btn-primary" href="{{ path('app_admin_show_article', {'id': value.id}) }}">Więcej →</a>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a class="btn btn-danger" style="float: right; margin-left: 4px;" href="#function_disabled">[X]</a>
+                            <a class="btn btn-success" style="float: right;" href="{{ path('app_admin_edit_article', {'id': lastArticle.id}) }}">[Edit]</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <h1>{{ info_no_articles_message }}</h1>
+        {% endif %}
+    </div>
+
+
+    </div>
+</div>
+
+
+{% endblock %}

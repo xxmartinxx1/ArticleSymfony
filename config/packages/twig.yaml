@@ -1,0 +1,11 @@
+twig:
+    default_path: '%kernel.project_dir%/templates'
+    globals: #Globals varible for the Twig template engine to use for exception
+        info_no_articles_message: "Brak Publikacji do wyświetlenia."
+        info_no_top_three_authors: "Brak najbardziej aktywnych autorów."
+
+
+
+when@test:
+    twig:
+        strict_variables: true
